@@ -9,7 +9,18 @@
     position: absolute;
     top:100px;
     left: 500px;
+    border-radius: 5px;
   }
+
+#super-container {
+    background-color: rgba(45, 92, 113, 1);
+    height: 100%;
+    width: 100%;
+    /* padding: 0;
+    margin: 0;
+    border:0;
+    background-size: cover; */
+}
 #clear {
     grid-column: 1/ span 2;
     grid-row: 2;
@@ -30,6 +41,7 @@
     text-align: right;
     background-color: rgb(50, 50, 50);
     color:rgb(250, 250, 250);
+    height:50px;
 }
 
 .row-2 {

@@ -15,18 +15,20 @@ function divide(a, b) {
 }
 
 function operate(operator, a, b) {
+    let ans;
     if(operator == "add") {
-        return add(a, b);
+        ans =  add(a, b);
     }
     else if( operator == "subtract") {
-        return subtract(a, b);
+        ans =  subtract(a, b);
     }
     else if( operator == "divide") {
-        return divide(a, b);
+        ans =  divide(a, b);
     }
     else {
-        return multiply(a, b);
+        ans = multiply(a, b);
     }
+    return Math.round(ans * 100)/100;
 }
 
 const buttons = Array.from(document.querySelectorAll(".grid-item"));
@@ -34,9 +36,12 @@ let operand1, operation;
 function changeOutput(e) {
     let curr = document.querySelector("#display").textContent;
     let id = e.target.id;
+    // console.log(id);
     operations = ["add", "subtract", "divide", "multiply"];
     if(id == "clear") {
-        document.querySelector("#display").textContent = "0";
+        document.querySelector("#display").textContent = "";
+        operand1 = null;
+        operation = null;
         return;
     }
     else if(id == "display") {
@@ -49,7 +54,7 @@ function changeOutput(e) {
         }
         return;
     }
-    else if(curr === "0") {
+    else if(curr === "") {
         document.querySelector("#display").textContent = "";
         if(id == "dot") {
             document.querySelector("#display").textContent += ".";
@@ -57,24 +62,33 @@ function changeOutput(e) {
         }
     }
     else if(id == "dot") {
+        if(curr.includes(".")) {
+            return;
+        }
         document.querySelector("#display").textContent += ".";
         return;
     }
-    else if(operations.includes(id) && operation == null) {
-        operand1 = curr;
-        operation = id;
-        document.querySelector("#display").textContent = "0";
-        return;
-
-    }
-    else if(id == "equals" || operation) {
-        document.querySelector("#display").textContent = operate(operation, operand1, curr);
-        if(operation) {
+    else if(operations.includes(id)) {
+        if(operand1 == null) {
             operand1 = curr;
-            // document.querySelector("#display").textContent = "0";
-            operation = id;
+        }
+        else {
+            if(operation != null)  operand1 = operate(operation, operand1, curr);
+        }
+        operation = id;
+        document.querySelector("#display").textContent = "";
+        return;
+    }
+    else if(id == "equals") {
+        // console.log(operation);
+        // console.log(operand1);
+        // console.log(curr);
+        if(operation == null) {
             return;
         }
+        document.querySelector("#display").textContent = operate(operation, operand1, curr);
+        operand1 = operate(operation, operand1, curr);
+        // console.log(operand1);
         operation = null;
         return;
     }
